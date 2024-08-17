@@ -52,6 +52,7 @@ def controller(ip, temp):
     print("2. Apagar el sistema PS3")
     print("3. Reiniciar el sistema PS3")
     print("4. Actualizar las temperaturas")
+    print("5. Salir")
 
     seleccion = input("Introduce la acción que se debe realizar: ")
     
@@ -69,6 +70,8 @@ def controller(ip, temp):
             sys.exit(0)
         elif seleccion == 4:
             controller(ip, temp)
+        elif seleccion == 5:
+            sys.exit(0)
         else:
             print("Opción no válida.")
             sys.exit(1)
