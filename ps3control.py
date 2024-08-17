@@ -55,7 +55,7 @@ def controller(ip, temp):
 
 def obtain_ip():
     ip = input("Introduce la IP de tu PS3: ")
-    r = requests.get(ip)
+    r = requests.get(f'http://{ip}')
     if r.status_code != 200:
         print(f"Error {r.status_code} al conectarse")
         sys.exit(1)
