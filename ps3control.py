@@ -18,7 +18,7 @@ def fan_control(ip, temp):
         _ = system('clear')
     
     print(f"Conectado a la IP {ip}")
-    print(f"Temperatura actual del sistema: {temp}°C")
+    print(f"Temperatura actual del sistema: {temp}")
     speed = input("\nIntroduce la velocidad del ventilador deseada (Para salir introduzca 'Salir'): ")
     
     try:
@@ -26,15 +26,18 @@ def fan_control(ip, temp):
         if 0 <= speed <= 100:
             requests.get(f'http://{ip}/cpursx.ps3?fan={speed}', verify=False)
             print(f"Velocidad del ventilador establecida en {speed}%")
+            controller(ip, temp)
         else:
             print("La velocidad debe estar entre 0 y 100%")
             time.sleep(2)
+            controller(ip, temp)
     except ValueError:
         if speed.lower() == "salir":
             sys.exit(0)
         else:
             print("Introduzca un valor numérico válido")
             time.sleep(2)
+            controller(ip, temp)
 
 def controller(ip, temp):
     if name == 'nt':
@@ -90,6 +93,3 @@ if __name__ == "__main__":
     ip = obtain_ip()
     temp = get_temp(ip)
     controller(ip, temp)
-    while True:
-        temp = get_temp(ip)
-        fan_control(ip, temp)
