@@ -51,6 +51,7 @@ def controller(ip, temp):
     print("1. Establecer la velocidad del ventilador manualmente")
     print("2. Apagar el sistema PS3")
     print("3. Reiniciar el sistema PS3")
+    print("4. Actualizar las temperaturas")
 
     seleccion = input("Introduce la acción que se debe realizar: ")
     
@@ -66,6 +67,8 @@ def controller(ip, temp):
             requests.get(f'http://{ip}/restart.ps3', verify=False)
             print("PS3 reiniciada.")
             sys.exit(0)
+        elif seleccion == 4:
+            controller(ip, temp)
         else:
             print("Opción no válida.")
             sys.exit(1)
