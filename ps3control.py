@@ -11,12 +11,13 @@ def get_temp(ip):
     temp = soup.find('font', color="#fff").text.strip()
     return temp
 
-def fan_control(ip, temp):
+def fan_control(ip):
     if name == 'nt':
         _ = system('cls')
     else:
         _ = system('clear')
     
+    temp = get_temp(ip)
     print(f"Conectado a la IP {ip}")
     print(f"Temperatura actual del sistema: {temp}")
     speed = input("\nIntroduce la velocidad del ventilador deseada (Para salir introduzca 'Salir'): ")
@@ -26,25 +27,25 @@ def fan_control(ip, temp):
         if 0 <= speed <= 100:
             requests.get(f'http://{ip}/cpursx.ps3?fan={speed}', verify=False)
             print(f"Velocidad del ventilador establecida en {speed}%")
-            controller(ip, temp)
+            controller(ip)
         else:
             print("La velocidad debe estar entre 0 y 100%")
             time.sleep(2)
-            controller(ip, temp)
+            controller(ip)
     except ValueError:
         if speed.lower() == "salir":
             sys.exit(0)
         else:
             print("Introduzca un valor numérico válido")
             time.sleep(2)
-            controller(ip, temp)
+            controller(ip)
 
-def controller(ip, temp):
+def controller(ip):
     if name == 'nt':
         _ = system('cls')
     else:
         _ = system('clear')
-    
+    temp = get_temp(ip)
     print(f"Conectado a la IP {ip}")
     print(f"Temperatura actual del sistema: {temp}")
     print("\nEscoge la acción a realizar:")
@@ -59,7 +60,7 @@ def controller(ip, temp):
     try:
         seleccion = int(seleccion)
         if seleccion == 1:
-            fan_control(ip, temp)
+            fan_control(ip)
         elif seleccion == 2:
             requests.get(f'http://{ip}/shutdown.ps3', verify=False)
             print("PS3 apagada.")
@@ -69,7 +70,7 @@ def controller(ip, temp):
             print("PS3 reiniciada.")
             sys.exit(0)
         elif seleccion == 4:
-            controller(ip, temp)
+            controller(ip)
         elif seleccion == 5:
             sys.exit(0)
         else:
@@ -97,5 +98,4 @@ def obtain_ip():
 
 if __name__ == "__main__":
     ip = obtain_ip()
-    temp = get_temp(ip)
-    controller(ip, temp)
+    controller(ip)
